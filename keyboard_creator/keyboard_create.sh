@@ -285,14 +285,14 @@ add_library() {
 add_symlib() {
 	add_library $1 $2
 	echo -e "${BOLD} >> Adding ${MAGENTA}${1}${WHITE} symbol library to KiCAD library table... \c"
-	sed -i "2 i (lib (name \"${1}\")(type \"KiCad\")(uri \"\$\{KIPRJMOD\}/${LIBDIR}/${1}/${1}.kicad_sym\")(options \"\")(descr \"Acheron Project symbol library\")) " ${KICADDIR}/sym-lib-table > /dev/null
+	perl -pi -e 'print "(lib (name \"${1}\")(type \"KiCad\")(uri \"\$${KIPRJMOD}/${LIBDIR}/${1}/${1}.kicad_sym\")(options \"\")(descr \"Acheron Project symbol library\"))\n" if $. == 2' ${KICADDIR}/sym-lib-table
 	echo "${BOLD}${GREEN}Done.${RESET}"
 }
 
 add_footprintlib(){
 	add_library $1.pretty $2
 	echo -e "${BOLD} >> Adding ${MAGENTA}${1}${WHITE} footprint library to KiCAD library table... \c"
-	sed -i "2 i (lib (name \"${1}\")(type \"KiCad\")(uri \"\$\{KIPRJMOD\}/${LIBDIR}/${1}.pretty\")(options \"\")(descr \"Acheron Project footprint library\")) " ${KICADDIR}/fp-lib-table > /dev/null
+	perl -pi -e 'print "(lib (name \"${1}\")(type \"KiCad\")(uri \"\$${KIPRJMOD}/${LIBDIR}/${1}.pretty\")(options \"\")(descr \"Acheron Project footprint library\"))\n" if $. == 2' ${KICADDIR}/fp-lib-table
 	echo "${BOLD}${GREEN}Done.${RESET}"
 }
 #}}}1
