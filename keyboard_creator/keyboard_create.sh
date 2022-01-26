@@ -54,9 +54,9 @@ OUTPUT_REDIRECTION='&>/dev/null'
 
 # Printing functions ----------------------------------------------------------------------------- {{{1
 function echo_text() {
-	local text_to_print="${*:$#}"  # Assuming it's the last parameter
-	local echo_args="${*%"${!#}"}" # Assuming it's the rest
-	echo ${echo_args} "${text_to_print}" >&1
+	local TEXT_TO_PRINT="${*:$#}"  # Assuming it's the last parameter
+	local ECHO_ARGS="${*%"${!#}"}" # Assuming it's the rest
+	echo ${ECHO_ARGS} "${TEXT_TO_PRINT}" >&1
 }
 
 function echo2stdout() {
@@ -329,9 +329,10 @@ add_line_in_file() {
 	local LINE="$1"
 	local TARGET_FILE="$2"
 	local LINE_NUMBER=${3:-2} # Default line number is 2
+	local SED_ARGS="-i${SED_BACKUP_EXT} -e"
 	local rc=
 
-	eval "${SED_COMMAND}" -i${SED_BACKUP_EXT} -e "'${LINE_NUMBER}i\\
+	eval "${SED_COMMAND}" "${SED_ARGS}" "'${LINE_NUMBER}i\\
 ${LINE}
 '" "${TARGET_FILE}" "${OUTPUT_REDIRECTION}"
 	rc=$?  # rc = 0 if the sed command was successfully executed
